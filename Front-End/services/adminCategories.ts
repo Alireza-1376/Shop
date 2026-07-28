@@ -1,4 +1,4 @@
-import { Categories, CategoryType } from "@/types/category"
+import { Categories } from "@/types/category"
 
 
 export const getAllCategories = async (page: number, limit?: number) => {

@@ -9,7 +9,7 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="fixed z-20 left-0 right-0 bg-white">
+        <div className="fixed z-20 left-0 right-0 bg-white shadow">
             <div className="px-4 md:px-0 top-0 container mx-auto flex items-center justify-between h-20">
                 <div className="flex items-center gap-2 text-amber-600">
                     <button onClick={() => { setOpen(true) }} className="flex md:hidden cursor-pointer">
