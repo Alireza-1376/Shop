@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { categoriesRouter } = require("./routes/categories");
 const { productRouter } = require("./routes/products");
+const { authRouter } = require("./routes/auth")
 const multer = require("multer");
 const path = require("path");
 
@@ -36,6 +37,7 @@ app.use(multer({ storage, fileFilter }).single("image"))
 app.use(express.static(path.join(__dirname, "images")))
 app.use("/admin", categoriesRouter)
 app.use("/admin", productRouter)
+app.use("/auth", authRouter)
 
 mongoose.connect("mongodb://localhost/Shop").then(() => {
     app.listen(4000, () => {

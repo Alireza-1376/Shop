@@ -25,7 +25,7 @@ export default function Navbar() {
                             <h2 className="text-xl md:text-2xl font-bold">شمرون کباب</h2>
                         </div>
                         <button onClick={() => { setOpen(false) }} className="cursor-pointer">
-                            <IoMdClose size={20}/>
+                            <IoMdClose size={20} />
                         </button>
                     </div>
                     <Link href="/" className="transition w-full hover:bg-amber-100 p-2 rounded-md lg:hover:bg-white lg:hover:text-amber-600">
@@ -44,17 +44,21 @@ export default function Navbar() {
                         تماس با ما
                     </Link>
                 </div>
+
+
                 <div>
-                    <button className="flex items-center gap-2 rounded-xl border px-5 py-2 transition hover:bg-gray-100 hover:text-amber-600 cursor-pointer">
+                    <Link href="/auth/login" className="flex items-center gap-2 rounded-xl border px-5 py-2 transition hover:bg-gray-100 hover:text-amber-600 cursor-pointer">
                         <RiLoginBoxLine size={20} />
                         <span>ورود</span>
                         <span className="text-gray-400">/</span>
                         <span>ثبت نام</span>
-                    </button>
+                    </Link>
                 </div>
+
+
             </div>
-            {open && <div onClick={()=>{setOpen(false)}} className="bg-black/50 md:hidden fixed inset-0 z-10"></div>}
-            
+            {open && <div onClick={() => { setOpen(false) }} className="bg-black/50 md:hidden fixed inset-0 z-10"></div>}
+
         </div>
     )
 }
