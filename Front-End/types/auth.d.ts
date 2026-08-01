@@ -16,3 +16,9 @@ export type SignupType = {
 export type PasswordType = {
     password: string
 }
+
+export type RecoveryPassword = {
+    phoneNumber: string,
+    password: string,
+    confirmPassword: string
+}

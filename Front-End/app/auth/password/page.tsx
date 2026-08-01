@@ -32,7 +32,7 @@ export default function PasswordPage() {
   }
 
   const forgetPassword = async () => {
-    router.push("/auth/forgetPassword")
+    router.push(`/auth/forgetPassword?phoneNumber=${phoneNumber}`)
   }
 
   return (

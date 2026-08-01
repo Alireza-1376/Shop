@@ -2,7 +2,7 @@ const { Otp } = require("../models/otp");
 const generateOtp = require("otp-generator");
 const { Signup } = require("../models/signup");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 async function getPhoneNumber(req, res) {
     const phoneNumber = req.body.phoneNumber.phoneNumber;
@@ -137,7 +137,22 @@ async function login(req, res) {
 
 async function recovery(req, res) {
     const phoneNumber = req.body.phoneNumber;
-    console.log(phoneNumber)
+    const password = req.body.password;
+    const user = await Signup.findOne({ phoneNumber: phoneNumber })
+    if (user) {
+        bcrypt.hash(password, 12).then((hashedPassword) => {
+            user.password = hashedPassword;
+            user.save().then(() => {
+                return res.status(200).send({
+                    message: "رمزعبور با موفقیت ویرایش شد ، لطفا وارد شوید "
+                })
+            })
+        })
+    } else {
+        return res.status(404).send({
+            message: "کاربر با این شماره موبایل ثبت نام نکرده است"
+        })
+    }
 }
 
 module.exports = {
