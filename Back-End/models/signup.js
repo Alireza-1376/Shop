@@ -11,6 +11,10 @@ const signupSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    phoneNumber: {
+        type: String,
+        required: true
     }
 },
     {

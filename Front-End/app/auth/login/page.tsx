@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { PhoneNumberType } from "@/types/auth";
-import { sendPhoneNumber } from "@/actions/auth/login";
+import { sendPhoneNumber } from "@/actions/auth/sendPhoneNumber";
 import { toast } from "react-toastify";
 
 export default function LoginPage() {
@@ -17,13 +17,17 @@ export default function LoginPage() {
 
     const onSubmit = async (values: PhoneNumberType) => {
         const result = await sendPhoneNumber(values)
+        if (result?.status == 409) {
+            router.push(`/auth/password?phoneNumber=${values.phoneNumber}`);
+            return;
+        }
         if (result?.status == 200) {
             toast.success("کد 4 رقمی به شماره موبایل شما ارسال شد", { rtl: true, className: "Font-BYekan" })
             localStorage.setItem("userInfo", JSON.stringify({ phoneNumber: result.data.phoneNumber, expiresAt: result.data.expiresAt }))
-            router.push("/auth/otp");
+            router.push(`/auth/otp?phoneNumber=${values.phoneNumber}`);
         } else {
             toast.error(result?.data.message, { rtl: true, className: "Font-BYekan" })
-            router.push("/auth/otp");
+            router.push(`/auth/otp?phoneNumber=${values.phoneNumber}`);
         }
     }
 

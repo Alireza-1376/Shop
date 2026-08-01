@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { Field } from "@/components/ui/field"
 import {
@@ -11,21 +11,22 @@ import {
 import { useEffect, useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { toast } from "react-toastify";
-import { sendPhoneNumber } from "@/actions/auth/login";
+import { sendPhoneNumber } from "@/actions/auth/sendPhoneNumber";
 import { OtpType, PhoneNumberType } from "@/types/auth";
 import { ErrorMessage, Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { veryfyOtp } from "@/actions/auth/verifyOtp";
 
 export default function OtpPage() {
+    const searchParams = useSearchParams()
+    const phone = searchParams.get("phoneNumber")
     const router = useRouter();
     const [timer, setTimer] = useState<number>();
-    const [phoneNumber, setPhonenumber] = useState<string>()
+    const [phoneNumber, setPhonenumber] = useState(Number(phone))
 
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo") || "")
         const time = (new Date(userInfo.expiresAt).getTime() - new Date().getTime()) / 1000
-        setPhonenumber(userInfo.phoneNumber)
         if (time > 0) {
             setTimer(Math.ceil(time))
         } else {

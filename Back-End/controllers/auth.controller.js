@@ -1,9 +1,21 @@
 const { Otp } = require("../models/otp");
 const generateOtp = require("otp-generator");
-
+const { Signup } = require("../models/signup");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
 
 async function getPhoneNumber(req, res) {
-    const { phoneNumber } = req.body.phoneNumber;
+    const phoneNumber = req.body.phoneNumber.phoneNumber;
+
+    const existUser = await Signup.findOne({ phoneNumber: phoneNumber })
+
+    if (existUser) {
+        return res.status(409).send({
+            message: "کاربری با این شماره قبلا ثبت نام کرده است"
+        })
+    }
+
+
     const otpCode = generateOtp.generate(4, {
         lowerCaseAlphabets: false,
         upperCaseAlphabets: false,
@@ -73,11 +85,65 @@ async function verifyOtp(req, res) {
 }
 
 async function signup(req, res) {
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = req.body.password;
+    const phoneNumber = req.body.phoneNumber;
+    bcrypt.hash(password, 12).then((hashedPassword) => {
+        const signupUser = new Signup({
+            username,
+            email,
+            phoneNumber,
+            password: hashedPassword
+        })
+        signupUser.save().then((data) => {
+            return res.status(201).send({
+                message: "ثبت نام با موفقیت انجام شد ،لطفا وارد شوید"
+            })
+        }).catch(() => {
+            return res.status(400).send({
+                message: "ثبت نام انجام نشد"
+            })
+        })
+    })
+}
 
+async function login(req, res) {
+    const password = req.body.password.password;
+    const phoneNumber = req.body.phoneNumber;
+    const user = await Signup.findOne({ phoneNumber: phoneNumber })
+    if (user) {
+        bcrypt.compare(password, user.password).then((isMatch) => {
+            if (isMatch) {
+                const token = jwt.sign({ phoneNumber: user.phoneNumber }, process.env.SECRET_KEY, {
+                    expiresIn: "24h"
+                })
+                return res.status(200).send({
+                    message: "ورود با موفقیت انجام شد",
+                    token: token
+                })
+            } else {
+                return res.status(401).send({
+                    message: "رمزعبور نادرست است"
+                })
+            }
+        })
+    } else {
+        return res.status(401).send({
+            message: "کاربری با این شماره موبایل یافت نشد"
+        })
+    }
+}
+
+async function recovery(req, res) {
+    const phoneNumber = req.body.phoneNumber;
+    console.log(phoneNumber)
 }
 
 module.exports = {
     getPhoneNumber,
     verifyOtp,
-    signup
+    signup,
+    login,
+    recovery
 }
