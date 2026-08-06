@@ -94,7 +94,8 @@ async function signup(req, res) {
             username,
             email,
             phoneNumber,
-            password: hashedPassword
+            password: hashedPassword,
+            role: process.env.ADMIN_PHONENUMBER == phoneNumber ? "admin" : "user"
         })
         signupUser.save().then((data) => {
             return res.status(201).send({
@@ -115,12 +116,14 @@ async function login(req, res) {
     if (user) {
         bcrypt.compare(password, user.password).then((isMatch) => {
             if (isMatch) {
-                const token = jwt.sign({ phoneNumber: user.phoneNumber }, process.env.SECRET_KEY, {
+                const token = jwt.sign({ id: user._id, phoneNumber: user.phoneNumber, role: user.role, username: user.username }, process.env.SECRET_KEY, {
                     expiresIn: "24h"
                 })
                 return res.status(200).send({
                     message: "ورود با موفقیت انجام شد",
-                    token: token
+                    token: token,
+                    username: user.username,
+                    role: user.role
                 })
             } else {
                 return res.status(401).send({
@@ -155,10 +158,53 @@ async function recovery(req, res) {
     }
 }
 
+async function getUserInfo(req, res) {
+    const token = req.cookies.token;
+    const verify = jwt.verify(token, process.env.SECRET_KEY)
+    if (verify) {
+        return res.status(200).send({
+            userId: verify.id,
+            phoneNumber: verify.phoneNumber,
+            role: verify.role,
+            username: verify.username
+        })
+    } else {
+        return res.status(401).send({
+            message: "توکن نامعتبر یا منقضی شده است"
+        });
+    }
+}
+
+async function profile(req, res) {
+    const id = req.params.id;
+    Signup.findById(id).then((user) => {
+        if (user) {
+            return res.status(200).send({
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                role: user.role,
+                createdAt: user.createdAt
+            })
+        } else {
+            return res.status(404).send({
+                message: "کاربر وجود ندارد"
+            })
+        }
+    }).catch(() => {
+        return res.status(500).send({
+            message: "خطای سرور"
+        })
+    })
+}
+
 module.exports = {
     getPhoneNumber,
     verifyOtp,
     signup,
     login,
-    recovery
+    recovery,
+    getUserInfo,
+    profile
 }

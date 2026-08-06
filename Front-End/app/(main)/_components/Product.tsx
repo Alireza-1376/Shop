@@ -14,6 +14,7 @@ function Product({ product }: { product: ProductType }) {
     function handleAddProduct(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.stopPropagation()
     }
+    
     return (
         <>
             <div onClick={(e) => { handleModal(e) }} className="flex flex-col border cursor-pointer border-gray-300 rounded-md overflow-hidden">

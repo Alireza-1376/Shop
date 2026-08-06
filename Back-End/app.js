@@ -5,9 +5,12 @@ const { productRouter } = require("./routes/products");
 const { authRouter } = require("./routes/auth")
 const multer = require("multer");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 require("dotenv").config()
 
 const app = express();
+
+app.use(cookieParser())
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -30,7 +33,8 @@ function fileFilter(req, file, cb) {
 app.use(express.json())
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*")
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+    res.setHeader("Access-Control-Allow-Credentials" , "true")
     next();
 })
 

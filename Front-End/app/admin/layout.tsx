@@ -14,8 +14,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body className="min-h-full flex flex-col">
+            <div className="min-h-full flex flex-col">
                 <SidebarProvider>
                     <div className="min-h-screen bg-gray-100">
                         <Navbar />
@@ -29,7 +28,6 @@ export default function RootLayout({
                         </div>
                     </div>
                 </SidebarProvider>
-            </body>
-        </html>
+            </div>
     );
 }

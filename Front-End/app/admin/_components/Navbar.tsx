@@ -1,5 +1,6 @@
 "use client"
 import { SidebarContext } from "@/context/SidebarContext";
+import Link from "next/link";
 import { useContext } from "react";
 import { RiAdminLine, RiMenuLine, RiShutDownLine } from "react-icons/ri";
 
@@ -27,10 +28,10 @@ function Navbar() {
                 </div>
             </div>
 
-            <button className="flex cursor-pointer items-center gap-2 px-4 py-2 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 transition-all">
+            <Link href="/" className="flex cursor-pointer items-center gap-2 px-4 py-2 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 transition-all">
                 <span className="hidden sm:block">خروج</span>
                 <RiShutDownLine size={18} />
-            </button>
+            </Link>
         </nav>
     )
 }

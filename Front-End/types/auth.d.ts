@@ -22,3 +22,18 @@ export type RecoveryPassword = {
     password: string,
     confirmPassword: string
 }
+export type UserInfoType = {
+    userId: string
+    role: string,
+    username: string,
+    phoneNumber: string
+}
+
+export type ProfileType = {
+    _id: string,
+    username: string,
+    email: string,
+    phoneNumber: string,
+    role: string,
+    createdAt: string
+}

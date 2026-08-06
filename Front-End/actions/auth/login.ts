@@ -12,7 +12,7 @@ export async function login(password: PasswordType, phoneNumber: string) {
         }
     })
     const data = await response.json()
-
+    console.log(data)
     const cookieStore = await cookies()
     cookieStore.set("token", data.token, {
         httpOnly: true,

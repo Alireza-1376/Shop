@@ -15,7 +15,24 @@ const signupSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
         required: true
-    }
+    },
+    role: {
+        type: String,
+        required: false
+    },
+    cart: [
+        {
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Products"
+            },
+            quantity: {
+                type: Number,
+                default: 1,
+                min: 1
+            }
+        }
+    ]
 },
     {
         timestamps: true
