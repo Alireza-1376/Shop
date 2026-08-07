@@ -10,8 +10,6 @@ import {
     FaArrowRight,
 } from "react-icons/fa";
 
-
-
 type InfoCardProps = {
     icon: React.ReactNode;
     title: string;
@@ -22,15 +20,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
     const search = await searchParams
     const userId = search.userId
     const user = await getProfileData(String(userId))
-    console.log(user)
-    // { searchParams }: { searchParams: Promise<{ [key: string]: string }> }
-    // const user = {
-    //     username: "علیرضا",
-    //     email: "alireza@gmail.com",
-    //     phoneNumber: "09303163279",
-    //     role: "admin",
-    //     createdAt: "2026-08-06T14:21:24.182+00:00",
-    // };
+
 
     const createdDate = new Date(user.createdAt).toLocaleDateString("fa-IR", {
         year: "numeric",
@@ -91,10 +81,13 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
                             </span>
                         </div>
 
-                        <button className="flex cursor-pointer items-center gap-2 rounded-lg bg-amber-500 px-5 py-2 text-xs font-semibold text-white transition hover:bg-amber-600">
+                        <Link href={{
+                            pathname: `/profile/edit`,
+                            query: { userId: userId }
+                        }} className="flex cursor-pointer items-center gap-2 rounded-lg bg-amber-500 px-5 py-2 text-xs font-semibold text-white transition hover:bg-amber-600">
                             <FaEdit className="text-sm" />
                             ویرایش پروفایل
-                        </button>
+                        </Link>
 
                     </div>
 

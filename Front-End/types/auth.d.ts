@@ -37,3 +37,10 @@ export type ProfileType = {
     role: string,
     createdAt: string
 }
+
+export type EditProfile = {
+    userId: string,
+    username: string,
+    email: string,
+    phoneNumber: string,
+}

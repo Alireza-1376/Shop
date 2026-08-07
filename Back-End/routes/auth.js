@@ -9,6 +9,7 @@ authRouter.post("/password", authController.login);
 authRouter.put("/recovery", authController.recovery);
 authRouter.get("/user-info", authController.getUserInfo);
 authRouter.get("/profile/:id", authController.profile);
+authRouter.put("/edit-profile", authController.editProfile);
 
 module.exports = {
     authRouter,

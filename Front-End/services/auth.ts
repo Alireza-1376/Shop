@@ -3,9 +3,8 @@ import { ProfileType, UserInfoType } from "@/types/auth";
 export async function getUserInfo() {
     const response = await fetch("http://localhost:4000/auth/user-info", {
         method: "GET",
-        credentials: "include"
+        credentials: "include",
     })
-
     const data: UserInfoType = await response.json()
     return data;
 }

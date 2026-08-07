@@ -2,10 +2,12 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { RiLoginBoxLine } from "react-icons/ri";
 import Logout from "./Logout";
+import { getUserInfo } from "@/services/auth";
 
 async function LoginBtn() {
     const cookieStrore = await cookies()
     const token = cookieStrore.get("token")
+    
     return (
         <div>
             {token ?

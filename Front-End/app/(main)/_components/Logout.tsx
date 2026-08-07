@@ -24,13 +24,13 @@ function Logout() {
         }
     }
 
-
+    console.log(userInfo)
 
     useEffect(() => {
         async function getUser() {
             const data = await getUserInfo()
-            console.log(data)
             setUserInfo(data)
+            router.refresh()
         }
         getUser();
 
@@ -40,7 +40,6 @@ function Logout() {
                 setOpen(false)
             }
         })
-
     }, [])
 
     return (

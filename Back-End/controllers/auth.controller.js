@@ -162,11 +162,12 @@ async function getUserInfo(req, res) {
     const token = req.cookies.token;
     const verify = jwt.verify(token, process.env.SECRET_KEY)
     if (verify) {
+        const user = await Signup.findById(verify.id)
         return res.status(200).send({
-            userId: verify.id,
-            phoneNumber: verify.phoneNumber,
-            role: verify.role,
-            username: verify.username
+            userId: user._id,
+            phoneNumber: user.phoneNumber,
+            role: user.role,
+            username: user.username
         })
     } else {
         return res.status(401).send({
@@ -199,6 +200,38 @@ async function profile(req, res) {
     })
 }
 
+async function editProfile(req, res) {
+    const username = req.body.username;
+    const phoneNumber = req.body.phoneNumber;
+    const email = req.body.email;
+    const userId = req.body.userId;
+    const user = await Signup.findById(userId)
+
+
+    if (user.role=="admin" && phoneNumber != process.env.ADMIN_PHONENUMBER) {
+        return res.status(403).send({
+            message: "امکان ویرایش این شماره وجود ندارد"
+        })
+    }
+
+
+    if (!user) {
+        return res.status(404).send({
+            message: "کاربر یافت نشد"
+        })
+    }
+    user.username = username
+    user.phoneNumber = phoneNumber
+    user.email = email
+
+    user.save().then((newUser) => {
+        return res.status(200).send({
+            message: "ویرایش با موفقیت انجام شد"
+        })
+    })
+
+}
+
 module.exports = {
     getPhoneNumber,
     verifyOtp,
@@ -206,5 +239,6 @@ module.exports = {
     login,
     recovery,
     getUserInfo,
-    profile
+    profile,
+    editProfile
 }
