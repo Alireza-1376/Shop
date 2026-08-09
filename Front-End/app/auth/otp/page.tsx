@@ -8,7 +8,7 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { toast } from "react-toastify";
 import { sendPhoneNumber } from "@/actions/auth/sendPhoneNumber";
@@ -18,6 +18,15 @@ import * as Yup from 'yup';
 import { veryfyOtp } from "@/actions/auth/verifyOtp";
 
 export default function OtpPage() {
+    return (
+        <Suspense>
+            <MainContent />
+        </Suspense>
+    )
+}
+
+
+function MainContent() {
     const searchParams = useSearchParams()
     const phone = searchParams.get("phoneNumber")
     const router = useRouter();

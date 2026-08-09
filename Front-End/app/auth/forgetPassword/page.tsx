@@ -3,10 +3,20 @@ import { recoveryPassword } from "@/actions/auth/recovery";
 import { RecoveryPassword } from "@/types/auth";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { toast } from "react-toastify";
 import * as Yup from 'yup';
 
 export default function ForgotPasswordPage() {
+  return (
+    <Suspense>
+      <MainContent />
+    </Suspense>
+  )
+}
+
+
+function MainContent() {
   const router = useRouter();
   const searchParams = useSearchParams()
   const phoneNumber = searchParams.get("phoneNumber") || "";

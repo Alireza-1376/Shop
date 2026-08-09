@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { categoriesRouter } = require("./routes/categories");
 const { productRouter } = require("./routes/products");
 const { authRouter } = require("./routes/auth")
+const { usersRouter } = require("./routes/users")
 const multer = require("multer");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -34,7 +35,7 @@ app.use(express.json())
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
-    res.setHeader("Access-Control-Allow-Credentials" , "true")
+    res.setHeader("Access-Control-Allow-Credentials", "true")
     next();
 })
 
@@ -42,6 +43,7 @@ app.use(multer({ storage, fileFilter }).single("image"))
 app.use(express.static(path.join(__dirname, "images")))
 app.use("/admin", categoriesRouter)
 app.use("/admin", productRouter)
+app.use("/admin", usersRouter)
 app.use("/auth", authRouter)
 
 mongoose.connect("mongodb://localhost/Shop").then(() => {

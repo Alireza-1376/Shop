@@ -6,9 +6,19 @@ import * as Yup from 'yup';
 import { PasswordType } from "@/types/auth";
 import { login } from "@/actions/auth/login";
 import { toast } from "react-toastify";
+import { Suspense } from "react";
 
 
 export default function PasswordPage() {
+  return (
+    <Suspense>
+      <MainContent />
+    </Suspense>
+  )
+}
+
+
+function MainContent() {
   const router = useRouter();
   const searchParams = useSearchParams()
   const phoneNumber = searchParams.get("phoneNumber") || "";
