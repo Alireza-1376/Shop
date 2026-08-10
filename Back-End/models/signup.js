@@ -26,10 +26,14 @@ const signupSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Products"
             },
+            variant: {
+                type: String,
+                required: false
+            },
             quantity: {
                 type: Number,
-                default: 1,
-                min: 1
+                default: 0,
+                min: 0
             }
         }
     ]

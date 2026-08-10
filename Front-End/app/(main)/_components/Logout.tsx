@@ -24,8 +24,6 @@ function Logout() {
         }
     }
 
-    console.log(userInfo)
-
     useEffect(() => {
         async function getUser() {
             const data = await getUserInfo()

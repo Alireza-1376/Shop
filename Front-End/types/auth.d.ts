@@ -35,7 +35,7 @@ export type ProfileType = {
     email: string,
     phoneNumber: string,
     role: string,
-    createdAt: string
+    createdAt: string,
 }
 
 export type EditProfile = {

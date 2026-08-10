@@ -3,18 +3,26 @@
 import { ProductType } from "@/types/product"
 import { useState } from "react";
 import ProductModal from "./Modal";
+import { addToCart } from "@/actions/cart/addToCart";
+import { CartItem, CartItemsType } from "@/types/cartItems";
+import AddToCartBtns from "./AddToCartBtns";
 
-function Product({ product }: { product: ProductType }) {
+function Product({ product, cart }: { product: ProductType, cart: CartItemsType }) {
     const [open, setOpen] = useState(false);
-
     function handleModal(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         setOpen(true)
     }
 
-    function handleAddProduct(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    async function handleAddProduct(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, productId: string) {
         e.stopPropagation()
+        const result = await addToCart(productId)
+        console.log(result)
     }
-    
+
+    const findItem = cart.cart?.find((c) => {
+        return c.product._id == product._id
+    })
+
     return (
         <>
             <div onClick={(e) => { handleModal(e) }} className="flex flex-col border cursor-pointer border-gray-300 rounded-md overflow-hidden">
@@ -29,7 +37,17 @@ function Product({ product }: { product: ProductType }) {
                         <div>
                             <p>{Number(product.price).toLocaleString("en-US")} تومان</p>
                         </div>
-                        <button onClick={(e) => { handleAddProduct(e) }} className="border hover:bg-amber-100 border-amber-300 text-amber-400 cursor-pointer px-4 py-1 rounded-full">افزودن</button>
+                        {product.variants.length > 0 ?
+                            <button className="border hover:bg-amber-100 border-amber-300 text-amber-400 cursor-pointer px-4 py-1 rounded-full">افزودن</button>
+                            :
+                            <>
+                                {findItem ?
+                                    <AddToCartBtns quantity={findItem.quantity} />
+                                    :
+                                    <button onClick={(e) => { handleAddProduct(e, product._id) }} className="border hover:bg-amber-100 border-amber-300 text-amber-400 cursor-pointer px-4 py-1 rounded-full">افزودن</button>
+                                }
+                            </>
+                        }
                     </div>
                 </div>
             </div>
@@ -37,6 +55,7 @@ function Product({ product }: { product: ProductType }) {
                 open={open}
                 onClose={() => setOpen(false)}
                 product={product}
+                cart={cart}
             />
         </>
     )

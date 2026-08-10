@@ -2,22 +2,42 @@
 
 import { X, Minus, Plus } from "lucide-react";
 import { ProductType } from "@/types/product";
+import { addToCart } from "@/actions/cart/addToCart";
+import { CartItemsType } from "@/types/cartItems";
+import AddToCartBtns from "./AddToCartBtns";
 
 interface ProductModalProps {
     open: boolean;
     onClose: () => void;
     product: ProductType
+    cart: CartItemsType
 }
 
 export default function ProductModal({
     open,
     onClose,
     product,
+    cart
 }: ProductModalProps) {
     if (!open) return null;
 
+    const totalPrice = cart.cart.reduce((acc, curr) => {
+        return acc + (curr.product._id == product._id ? curr.quantity * Number(curr.product.price) : 0)
+    }, 0)
+
+    const count = cart.cart.reduce((acc, curr) => {
+        return acc + (curr.product._id == product._id ? curr.quantity : 0)
+    }, 0)
+
+
+    async function handleAddToCart(productId: string, variantId?: string) {
+        const result = await addToCart(productId, variantId)
+    }
+
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3 backdrop-blur-sm">
+
             <div
                 dir="rtl"
                 className="relative flex h-auto w-full max-w-xl flex-col gap-4 overflow-hidden rounded-3xl bg-white shadow-2xl"
@@ -69,6 +89,13 @@ export default function ProductModal({
                         {product.variants.length > 0 &&
                             <div className="flex flex-col gap-6 mb-8">
                                 {product.variants.map((variant) => {
+                                    const hasVariant = cart.cart.some((c) => {
+                                        return String(c.variant) === String(variant._id);
+                                    });
+                                    const find = cart.cart.find((c) => {
+                                        return String(c.variant) === String(variant._id);
+                                    });
+
                                     return (
                                         <div key={variant._id} className="flex justify-between items-center">
                                             <div className="flex items-center gap-2">
@@ -93,7 +120,9 @@ export default function ProductModal({
                                                 </div>
                                             </div>
                                             <div>
-                                                <button className="border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white cursor-pointer py-1 px-4 rounded-full">افزودن</button>
+                                                {
+                                                    hasVariant ? <AddToCartBtns quantity={Number(find?.quantity)} /> : <button onClick={() => { handleAddToCart(product._id, variant._id) }} className="border hover:bg-amber-100 border-amber-300 text-amber-400 cursor-pointer px-4 py-1 rounded-full">افزودن</button>
+                                                }
                                             </div>
                                         </div>
                                     )
@@ -108,19 +137,16 @@ export default function ProductModal({
                     <div className="border-t bg-white p-4">
                         <div className="flex gap-4 items-center justify-between">
                             {/* Button */}
-                            <button className="py-3 text-xs md:text-sm cursor-pointer rounded-xl bg-amber-500 px-4 text-white transition hover:bg-amber-600 md:w-auto">
-                                افزودن به سبد خرید {Number(product.price).toLocaleString("en-US")} تومان
-                            </button>
-
+                            <p className="py-3 text-xs md:text-sm cursor-pointer rounded-xl transition md:w-auto">
+                                قیمت کل : {totalPrice.toLocaleString("en-US")} تومان
+                            </p>
 
                             {/* Counter */}
                             <div className="flex md:gap-4 gap-2 md:text-sm items-center justify-between rounded-xl border md:w-36">
-                                <button className="cursor-pointer p-3">
+                                <button onClick={() => { handleAddToCart(product._id) }} className="cursor-pointer p-3">
                                     <Plus size={14} />
                                 </button>
-
-                                <span>1</span>
-
+                                <span>{count}</span>
                                 <button className="cursor-pointer p-3">
                                     <Minus size={14} />
                                 </button>
@@ -129,6 +155,7 @@ export default function ProductModal({
                     </div>
                 }
             </div>
+
         </div>
     );
 }

@@ -2,14 +2,15 @@ import { getAllCategories } from "@/services/adminCategories";
 import { getAllProducts } from "@/services/adminProducts";
 import Product from "./Product";
 import Cart from "./Cart";
+import { getCartItems } from "@/services/cartItems";
 
 async function Menu() {
 
-    const [{ categories }, { products }] = await Promise.all([
+    const [{ categories }, { products } , cart] = await Promise.all([
         getAllCategories(1),
-        getAllProducts(1)
+        getAllProducts(1) ,
+        getCartItems()
     ])
-
 
     return (
         <div className="mt-10 grid grid-cols-12 gap-4">
@@ -26,7 +27,7 @@ async function Menu() {
                             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                                 {filterProduct.map((product) => {
                                     return (
-                                        <Product product={product} key={product._id}/>
+                                        <Product cart={cart} product={product} key={product._id}/>
                                     )
                                 })}
                             </div>
