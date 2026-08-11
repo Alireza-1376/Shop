@@ -5,6 +5,7 @@ import { ProductType } from "@/types/product";
 import { addToCart } from "@/actions/cart/addToCart";
 import { CartItemsType } from "@/types/cartItems";
 import AddToCartBtns from "./AddToCartBtns";
+import { deleteFromCart } from "@/actions/cart/deleteFromCart";
 
 interface ProductModalProps {
     open: boolean;
@@ -32,6 +33,10 @@ export default function ProductModal({
 
     async function handleAddToCart(productId: string, variantId?: string) {
         const result = await addToCart(productId, variantId)
+    }
+
+    async function handleDeleteFromCart(productId: string, variantId?: string) {
+        const result = await deleteFromCart(productId, variantId)
     }
 
 
@@ -121,7 +126,7 @@ export default function ProductModal({
                                             </div>
                                             <div>
                                                 {
-                                                    hasVariant ? <AddToCartBtns quantity={Number(find?.quantity)} /> : <button onClick={() => { handleAddToCart(product._id, variant._id) }} className="border hover:bg-amber-100 border-amber-300 text-amber-400 cursor-pointer px-4 py-1 rounded-full">افزودن</button>
+                                                    hasVariant ? <AddToCartBtns productId={product._id} variantId={variant._id} quantity={Number(find?.quantity)} /> : <button onClick={() => { handleAddToCart(product._id, variant._id) }} className="border hover:bg-amber-100 border-amber-300 text-amber-400 cursor-pointer px-4 py-1 rounded-full">افزودن</button>
                                                 }
                                             </div>
                                         </div>
@@ -147,7 +152,7 @@ export default function ProductModal({
                                     <Plus size={14} />
                                 </button>
                                 <span>{count}</span>
-                                <button className="cursor-pointer p-3">
+                                <button onClick={() => { handleDeleteFromCart(product._id) }} className="cursor-pointer p-3">
                                     <Minus size={14} />
                                 </button>
                             </div>

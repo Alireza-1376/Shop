@@ -42,7 +42,7 @@ async function Cart() {
                                             {variant ? <p>{variant.title}</p> : <p>{c.product.title}</p>}
                                             <p>{Number(c.product.price).toLocaleString("en-US")} تومان</p>
                                         </div>
-                                        <AddToCartBtns quantity={c.quantity} />
+                                        <AddToCartBtns productId={c.product._id} variantId={c.variant} quantity={c.quantity} />
                                     </div>
                                 )
                             })}

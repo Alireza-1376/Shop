@@ -42,7 +42,7 @@ function Product({ product, cart }: { product: ProductType, cart: CartItemsType 
                             :
                             <>
                                 {findItem ?
-                                    <AddToCartBtns quantity={findItem.quantity} />
+                                    <AddToCartBtns productId={product._id} quantity={findItem.quantity} />
                                     :
                                     <button onClick={(e) => { handleAddProduct(e, product._id) }} className="border hover:bg-amber-100 border-amber-300 text-amber-400 cursor-pointer px-4 py-1 rounded-full">افزودن</button>
                                 }
