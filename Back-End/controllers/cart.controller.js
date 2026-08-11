@@ -124,8 +124,41 @@ async function deleteFromCart(req, res) {
     }
 }
 
+async function deleteAllCartItems(req, res) {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).send({
+                message: "لطفا وارد شوید",
+            });
+        }
+        const token = authHeader.split(" ")[1]
+        const verify = jwt.verify(token, process.env.SECRET_KEY)
+        const user = await Signup.findById(verify.id)
+
+        if (!user) {
+            return res.status(404).send({
+                message: "کاربر پیدا نشد",
+            });
+        }
+
+        user.cart = []
+
+        user.save().then(() => {
+            return res.status(200).send({
+                message: "محصول از سبد خرید حذف شد",
+            });
+        })
+    } catch (error) {
+        return res.status(500).send({
+            message: "خطایی رخ داده است",
+        });
+    }
+}
+
 module.exports = {
     addToCart,
     getUserCart,
-    deleteFromCart
+    deleteFromCart,
+    deleteAllCartItems
 }
