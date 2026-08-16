@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
 import Link from "next/link";
+import { FiShoppingBag } from "react-icons/fi";
 
 function Logout() {
     const router = useRouter();
@@ -51,6 +52,10 @@ function Logout() {
                 <Link href={`/profile?userId=${userInfo?.userId}`} className={`${open ? "flex" : "hidden"} hover:bg-amber-100 flex items-center gap-2 py-2 px-2 w-full cursor-pointer`}>
                     <CgProfile size={20} />
                     <span>پروفایل</span>
+                </Link>
+                <Link href={`/orders`} className={`${open ? "flex" : "hidden"} hover:bg-amber-100 flex items-center gap-2 py-2 px-2 w-full cursor-pointer`}>
+                    <FiShoppingBag size={20} />
+                    <span>سفارشات</span>
                 </Link>
                 {userInfo?.role == "admin" &&
                     <button onClick={() => { router.push("/admin") }} className={` ${open ? "flex" : "hidden"} hover:bg-amber-100 flex items-center gap-2 py-2 px-2 w-full cursor-pointer`}>

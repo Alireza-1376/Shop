@@ -3,12 +3,12 @@ import { BsHandbag } from 'react-icons/bs'
 import AddToCartBtns from './AddToCartBtns'
 import MobileCart from './MobileCart'
 import DeleteCartBtn from './DeleteCartBtn'
+import Link from 'next/link'
 
 
 async function Cart() {
     const { cart } = await getCartItems()
-    console.log(cart)
-    const totalPrice = cart.reduce((acc, curr) => {
+    const totalPrice = cart?.reduce((acc, curr) => {
         return acc + (Number(curr.product.price) * curr.quantity)
     }, 0);
 
@@ -127,11 +127,12 @@ async function Cart() {
                                 {/* Checkout */}
 
                                 <div className="px-4 pb-4">
-
-                                    <button
+                                    <Link href="/checkout"
                                         type="button"
                                         className="
                                     w-full
+                                    flex
+                                    justify-center items-center
                                     bg-amber-600
                                     hover:bg-amber-700
                                     text-white
@@ -142,7 +143,7 @@ async function Cart() {
                                 "
                                     >
                                         تکمیل سفارش
-                                    </button>
+                                    </Link>
 
                                 </div>
 

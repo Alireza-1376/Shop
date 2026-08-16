@@ -22,11 +22,11 @@ export default function ProductModal({
 }: ProductModalProps) {
     if (!open) return null;
 
-    const totalPrice = cart.cart.reduce((acc, curr) => {
+    const totalPrice = cart.cart?.reduce((acc, curr) => {
         return acc + (curr.product._id == product._id ? curr.quantity * Number(curr.product.price) : 0)
     }, 0)
 
-    const count = cart.cart.reduce((acc, curr) => {
+    const count = cart.cart?.reduce((acc, curr) => {
         return acc + (curr.product._id == product._id ? curr.quantity : 0)
     }, 0)
 
@@ -143,7 +143,7 @@ export default function ProductModal({
                         <div className="flex gap-4 items-center justify-between">
                             {/* Button */}
                             <p className="py-3 text-xs md:text-sm cursor-pointer rounded-xl transition md:w-auto">
-                                قیمت کل : {totalPrice.toLocaleString("en-US")} تومان
+                                قیمت کل : {totalPrice?.toLocaleString("en-US")} تومان
                             </p>
 
                             {/* Counter */}

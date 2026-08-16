@@ -6,6 +6,7 @@ import ProductModal from "./Modal";
 import { addToCart } from "@/actions/cart/addToCart";
 import { CartItem, CartItemsType } from "@/types/cartItems";
 import AddToCartBtns from "./AddToCartBtns";
+import { toast } from "react-toastify";
 
 function Product({ product, cart }: { product: ProductType, cart: CartItemsType }) {
     const [open, setOpen] = useState(false);
@@ -16,7 +17,9 @@ function Product({ product, cart }: { product: ProductType, cart: CartItemsType 
     async function handleAddProduct(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, productId: string) {
         e.stopPropagation()
         const result = await addToCart(productId)
-        console.log(result)
+        if (result.status != 200) {
+            toast.error(result.message, { rtl: true, className: "Font-BYekan" })
+        }
     }
 
     const findItem = cart.cart?.find((c) => {

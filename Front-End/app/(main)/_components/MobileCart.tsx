@@ -11,6 +11,7 @@ import {
 import AddToCartBtns from "./AddToCartBtns"
 import { CartItem } from "@/types/cartItems"
 import DeleteCartBtn from "./DeleteCartBtn"
+import Link from "next/link"
 
 function MobileCart({ cart, totalPrice }: { cart: CartItem[], totalPrice: number }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -255,12 +256,14 @@ function MobileCart({ cart, totalPrice }: { cart: CartItem[], totalPrice: number
 
                         {/* Checkout */}
 
-                        <div className="px-4 pb-4">
-
-                            <button
+                        <div className="px-4 pb-4 bg-red-100">
+                            <Link
+                                href="/checkout"
                                 type="button"
                                 className="
                                     w-full
+                                    flex flex-1
+                                    justify-center items-center
                                     bg-amber-600
                                     hover:bg-amber-700
                                     text-white
@@ -271,7 +274,7 @@ function MobileCart({ cart, totalPrice }: { cart: CartItem[], totalPrice: number
                                 "
                             >
                                 تکمیل سفارش
-                            </button>
+                            </Link>
 
                         </div>
 

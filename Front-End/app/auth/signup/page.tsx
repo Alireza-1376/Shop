@@ -9,6 +9,7 @@ import { signup } from "@/actions/auth/signup";
 import { toast } from "react-toastify";
 
 export default function RegisterPage() {
+  
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState("");
 
