@@ -237,7 +237,8 @@ async function paymentVerify(req, res) {
                     trackingCode: response.refId,
                     amount: payment.amount,
                     userId: payment.userId,
-                    products: user.cart
+                    products: user.cart,
+                    situation: "checking"
                 });
                 await Payment.findByIdAndDelete(payment._id)
                 user.cart = []
@@ -259,7 +260,7 @@ async function paymentVerify(req, res) {
 
 async function getOneOrder(req, res) {
     const orderId = req.body.orderId;
-    Orders.findById(orderId).then((order) => {
+    Orders.findById(orderId).populate("products.product").then((order) => {
         return res.status(200).send({
             _id: order._id,
             phoneNumber: order.phoneNumber,
@@ -268,6 +269,7 @@ async function getOneOrder(req, res) {
             amount: order.amount,
             userId: order.userId,
             createdAt: order.createdAt,
+            products:order.products
         })
     })
 }

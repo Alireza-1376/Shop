@@ -6,6 +6,7 @@ import { addToCart } from "@/actions/cart/addToCart";
 import { CartItemsType } from "@/types/cartItems";
 import AddToCartBtns from "./AddToCartBtns";
 import { deleteFromCart } from "@/actions/cart/deleteFromCart";
+import { toast } from "react-toastify";
 
 interface ProductModalProps {
     open: boolean;
@@ -33,6 +34,9 @@ export default function ProductModal({
 
     async function handleAddToCart(productId: string, variantId?: string) {
         const result = await addToCart(productId, variantId)
+        if (result.status != 200) {
+            toast.error(result.message, { rtl: true, className: "Font-BYekan" })
+        }
     }
 
     async function handleDeleteFromCart(productId: string, variantId?: string) {
@@ -143,7 +147,7 @@ export default function ProductModal({
                         <div className="flex gap-4 items-center justify-between">
                             {/* Button */}
                             <p className="py-3 text-xs md:text-sm cursor-pointer rounded-xl transition md:w-auto">
-                                قیمت کل : {totalPrice?.toLocaleString("en-US")} تومان
+                                قیمت کل : {totalPrice?.toLocaleString("en-US") || 0} تومان
                             </p>
 
                             {/* Counter */}
@@ -151,7 +155,7 @@ export default function ProductModal({
                                 <button onClick={() => { handleAddToCart(product._id) }} className="cursor-pointer p-3">
                                     <Plus size={14} />
                                 </button>
-                                <span>{count}</span>
+                                <span>{count || 0}</span>
                                 <button onClick={() => { handleDeleteFromCart(product._id) }} className="cursor-pointer p-3">
                                     <Minus size={14} />
                                 </button>

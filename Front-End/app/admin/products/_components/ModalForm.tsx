@@ -10,7 +10,6 @@ import { getOneProduct } from "@/services/adminProducts";
 function ModalForm({ categories }: { categories: CategoryType[] }) {
     const [state, action, pending] = useActionState(createProducts, { statusCode: 0 });
     const router = useRouter();
-
     const searchParams = useSearchParams();
     const productId = searchParams.get("id");
     const [title, setTitle] = useState("");

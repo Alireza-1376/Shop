@@ -35,7 +35,11 @@ const orderSchema = new mongoose.Schema({
             default: 0,
             min: 0
         }
-    }]
+    }],
+    situation: {
+        type: String,
+        require: false
+    }
 
 }, {
     timestamps: true

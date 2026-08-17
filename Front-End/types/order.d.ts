@@ -8,5 +8,6 @@ export interface Order {
   amount: number;
   userId: string;
   createdAt: string;
+  situation : string;
   products: CartItem[]
 }
