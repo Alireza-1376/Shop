@@ -23,7 +23,7 @@ export default function LoginPage() {
         }
         if (result?.status == 200) {
             toast.success("کد 4 رقمی به شماره موبایل شما ارسال شد", { rtl: true, className: "Font-BYekan" })
-            localStorage.setItem("userInfo", JSON.stringify({ phoneNumber: result.data.phoneNumber, expiresAt: result.data.expiresAt }))
+            localStorage.setItem("userInfo", JSON.stringify({ phoneNumber: result.data.phoneNumber, expiresAt: result.data.expiresAt , otp : result.data.otp }))
             router.push(`/auth/otp?phoneNumber=${values.phoneNumber}`);
         } else {
             toast.error(result?.data.message, { rtl: true, className: "Font-BYekan" })

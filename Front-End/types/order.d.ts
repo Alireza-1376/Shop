@@ -8,6 +8,13 @@ export interface Order {
   amount: number;
   userId: string;
   createdAt: string;
-  situation : string;
+  situation: string;
   products: CartItem[]
+}
+
+export type OrdersType = {
+  orders: Order[],
+  currentPage: number,
+  totalOrders: number,
+  lastPage: number
 }

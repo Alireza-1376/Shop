@@ -1,10 +1,15 @@
-import { getAllOrders } from "@/services/orders";
+import { getAllOrdersForAdmin } from "@/services/orders";
 import { FiPhone, FiMapPin } from "react-icons/fi";
 import ActivityBtns from "./_components/ActivityBtns";
+import PaginationBtns from "@/app/_components/pagination";
 
-export default async function Orders() {
-    const orders = await getAllOrders();
-
+export default async function Orders({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: number }>;
+}) {
+    const { page } = await searchParams;
+    const { orders, currentPage, lastPage } = await getAllOrdersForAdmin(page, 4);
     return (
         <div dir="rtl" className="mt-2">
 
@@ -78,7 +83,7 @@ export default async function Orders() {
                                                 </td>
 
                                                 {/* عملیات */}
-                                                <ActivityBtns orderId={order._id}/>
+                                                <ActivityBtns orderId={order._id} />
                                             </tr>
                                         )
                                     })
@@ -89,6 +94,12 @@ export default async function Orders() {
 
                 </table>
             </div>
+            {orders.length > 0 && (
+                <PaginationBtns
+                    currentPage={currentPage}
+                    lastPage={lastPage}
+                />
+            )}
 
         </div>
     );

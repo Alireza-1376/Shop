@@ -269,7 +269,8 @@ async function getOneOrder(req, res) {
             amount: order.amount,
             userId: order.userId,
             createdAt: order.createdAt,
-            products:order.products
+            products: order.products,
+            situation: order.situation
         })
     })
 }
@@ -299,6 +300,7 @@ async function getAllOrders(req, res) {
         })
     }
 }
+
 
 module.exports = {
     addToCart,

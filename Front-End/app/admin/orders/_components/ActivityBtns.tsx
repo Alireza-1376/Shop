@@ -1,11 +1,18 @@
 "use client"
 
+import { changeStatus } from "@/actions/admin/changeStatus";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FiEye, FiTruck } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 function ActivityBtns({ orderId }: { orderId: string }) {
-    const router = useRouter();
+    async function handleStatus(id: string) {
+        const result = await changeStatus(id)
+        if (result.status == 200) {
+            toast.success(result.message, { rtl: true, className: "Font-BYekan" })
+        }
+    }
+
     return (
         <td className="p-4">
             <div className="flex justify-center gap-2">
@@ -21,6 +28,7 @@ function ActivityBtns({ orderId }: { orderId: string }) {
 
                 {/* تغییر وضعیت */}
                 <button
+                    onClick={() => { handleStatus(orderId) }}
                     title="تغییر وضعیت به ارسال شده"
                     className="rounded-lg cursor-pointer bg-green-50 p-2 text-green-600 transition hover:bg-green-100 disabled:opacity-40"
                 >

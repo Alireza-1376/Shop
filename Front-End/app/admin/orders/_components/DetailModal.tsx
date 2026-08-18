@@ -1,8 +1,6 @@
 import { getOneOrder } from "@/services/orders";
-import Link from "next/link";
 
 import {
-    FiX,
     FiPhone,
     FiMapPin,
     FiCreditCard,
@@ -13,7 +11,7 @@ import BackBtn from "./BackBtn";
 
 export default async function OrderModal({ id }: { id: string }) {
     const order = await getOneOrder(String(id));
-
+    console.log(order)
     return (
         <div
             dir="rtl"
@@ -95,12 +93,12 @@ export default async function OrderModal({ id }: { id: string }) {
                         </p>
 
                         <span
-                            className={`mt-2 inline-block rounded-lg px-3 py-2 text-sm ${order?.situation === "checking"
+                            className={`mt-2 inline-block rounded-lg px-3 py-2 text-sm ${order?.situation === "sent"
                                 ? "bg-green-100 text-green-700"
                                 : "bg-yellow-100 text-yellow-700"
                                 }`}
                         >
-                            {order?.situation === "checking"
+                            {order?.situation === "sent"
                                 ? "ارسال شده"
                                 : "در انتظار بررسی"}
                         </span>

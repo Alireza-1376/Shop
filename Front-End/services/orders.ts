@@ -1,4 +1,4 @@
-import { Order } from "@/types/order";
+import { Order, OrdersType } from "@/types/order";
 import { cookies } from "next/headers";
 
 export async function getOneOrder(id: string) {
@@ -19,9 +19,23 @@ export async function getAllOrders() {
     const response = await fetch("http://localhost:4000/orders", {
         headers: {
             "Authorization": `Bearer ${token}`
+        },
+        next: {
+            tags: ["orders"]
         }
     })
 
     const data: Order[] = await response.json();
+    return data;
+}
+
+export async function getAllOrdersForAdmin(page: number, limit?: number) {
+    const response = await fetch(`http://localhost:4000/admin/get-orders?page=${page}&limit=${limit}`, {
+        next: {
+            tags: ["orders"]
+        }
+    })
+
+    const data: OrdersType = await response.json();
     return data;
 }

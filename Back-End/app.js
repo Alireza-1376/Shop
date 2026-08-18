@@ -5,6 +5,7 @@ const { productRouter } = require("./routes/products");
 const { authRouter } = require("./routes/auth")
 const { usersRouter } = require("./routes/users")
 const { cartRouter } = require("./routes/cart")
+const { ordersRouter } = require("./routes/orders")
 const multer = require("multer");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -46,6 +47,7 @@ app.use("/admin", categoriesRouter)
 app.use("/admin", productRouter)
 app.use("/admin", usersRouter)
 app.use("/auth", authRouter)
+app.use("/admin", ordersRouter)
 app.use(cartRouter)
 
 mongoose.connect("mongodb://localhost/Shop").then(() => {

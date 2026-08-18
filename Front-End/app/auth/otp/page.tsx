@@ -32,9 +32,10 @@ function MainContent() {
     const router = useRouter();
     const [timer, setTimer] = useState<number>();
     const [phoneNumber, setPhonenumber] = useState(Number(phone))
-
+    const [otp , setOtp] = useState("")
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo") || "")
+        setOtp(userInfo.otp)
         const time = (new Date(userInfo.expiresAt).getTime() - new Date().getTime()) / 1000
         if (time > 0) {
             setTimer(Math.ceil(time))
@@ -122,7 +123,7 @@ function MainContent() {
                                         />
                                     </svg>
                                 </div>
-                                <h1 className="text-2xl font-bold text-gray-800">کد تأیید</h1>
+                                <h1 className="text-2xl font-bold text-gray-800">کد تأیید : {otp}</h1>
                                 <p className="text-sm text-gray-500">
                                     {phoneNumber && ` کد ۴ رقمی به شماره ${phoneNumber} ارسال شده است`}
                                 </p>

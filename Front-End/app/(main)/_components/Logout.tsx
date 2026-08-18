@@ -58,7 +58,7 @@ function Logout() {
                     <span>سفارشات</span>
                 </Link>
                 {userInfo?.role == "admin" &&
-                    <button onClick={() => { router.push("/admin") }} className={` ${open ? "flex" : "hidden"} hover:bg-amber-100 flex items-center gap-2 py-2 px-2 w-full cursor-pointer`}>
+                    <button onClick={() => { router.push("/admin/categories") }} className={` ${open ? "flex" : "hidden"} hover:bg-amber-100 flex items-center gap-2 py-2 px-2 w-full cursor-pointer`}>
                         <IoMdSettings size={20} />
                         <span>پنل ادمین</span>
                     </button>

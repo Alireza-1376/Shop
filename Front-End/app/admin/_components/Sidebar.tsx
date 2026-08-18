@@ -27,7 +27,6 @@ function Sidebar() {
                 </div>
                 <div className="p-4">
                     <ul className="space-y-2">
-                        <CustomLink href="/admin" text="داشبورد" Icon={RiHome5Line} />
                         <CustomLink href="/admin/categories" text="دسته بندی" Icon={TbCategory} />
                         <CustomLink href="/admin/products" text="محصولات" Icon={RiBox3Line} />
                         <CustomLink href="/admin/orders" text="سفارشات" Icon={RiShoppingCart2Line} />
